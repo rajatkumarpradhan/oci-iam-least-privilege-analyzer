@@ -57,3 +57,22 @@ class ParserTests(unittest.TestCase):
             self.assertEqual(main([str(p), '--output', str(Path(d)/'out.json'), '--fail-on-manual-review']), 0)
 
 if __name__ == '__main__': unittest.main()
+
+class EvaluationEdgeTests(unittest.TestCase):
+    def test_broad_scope_verb_priority_monotonic(self):
+        cases = [("inspect", 50), ("read", 60), ("use", 75), ("manage", 95)]
+        for verb, expected in cases:
+            with self.subTest(verb=verb):
+                stmt = parse_statement(f"Allow group Operators to {verb} all-resources in tenancy", 1, "Boundary")
+                finding = analyze([stmt])["findings"][0]
+                self.assertEqual(finding["score"], expected)
+                self.assertEqual(finding["citation"], "Boundary#statement-1")
+
+    def test_each_policy_statement_index_resets(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d)/"p.json"
+            path.write_text(json.dumps({"policies": [
+                {"name": "First", "statements": ["Allow group A to read instances in compartment X"]},
+                {"name": "Second", "statements": ["Allow group B to read instances in compartment X"]}]}))
+            self.assertEqual([s.citation for s in load_export(path)],
+                             ["First#statement-1", "Second#statement-1"])
