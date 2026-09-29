@@ -1,0 +1,13 @@
+{
+  "policies": [
+    {"name": "LabOperators", "statements": [
+      "Allow group LabAdmins to manage all-resources in tenancy",
+      "Allow group LabReaders to read instances in compartment Sandbox",
+      "Allow dynamic-group BatchWorkers to use object-family in compartment LabData",
+      "Allow group ScopedOps to manage instances in compartment Sandbox where request.permission='INSTANCE_CREATE'"
+    ]},
+    {"name": "AuditReaders", "statements": [
+      "Allow group Reviewers to inspect instances in compartment Sandbox"
+    ]}
+  ]
+}

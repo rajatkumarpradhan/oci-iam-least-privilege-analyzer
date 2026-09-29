@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oci-iam-least-privilege-analyzer"
+version = "0.1.0"
+description = "Offline, evidence-cited static risk review for OCI IAM statements"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[project.scripts]
+oci-iam-review = "oci_iam_analyzer.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
