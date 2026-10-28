@@ -1,0 +1,20 @@
+{
+  "description": "Classification eval gate for the condition/subject grammar. Each case asserts the analyzer's supported/manual-review classification; CI fails on any misclassification.",
+  "cases": [
+    {"statement": "Allow group NetOps to use virtual-network-family in compartment Net where any { request.permission='VCN_CREATE', request.permission='SUBNET_CREATE' }", "expect": "supported", "set": "any", "variables": ["request.permission"]},
+    {"statement": "Allow group DBOps to manage database-family in compartment Data where all { request.operation='CreateAutonomousDatabase', target.compartment.id='ocid1.compartment.oc1..aaaa' }", "expect": "supported", "set": "all", "variables": ["request.operation", "target.compartment.id"]},
+    {"statement": "Allow group Readers to read instances in tenancy where target.resource.type='instance'", "expect": "supported", "variables": ["target.resource.type"]},
+    {"statement": "Allow group id ocid1.group.oc1..aaaaaaaa to read instances in compartment Lab", "expect": "supported"},
+    {"statement": "Allow dynamic-group id ocid1.dynamicgroup.oc1..bbbbbbbb to use object-family in compartment Data", "expect": "supported"},
+    {"statement": "Allow any-user to read objectstorage-namespace-names in tenancy", "expect": "supported"},
+    {"statement": "Allow group g to use instances in tenancy where request.operation=\"CreateInstance\"", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where request.operation=='CreateInstance'", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where request.operation=CreateInstance", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where any { }", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where any { request.permission='X', }", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where all { any { request.permission='X' } }", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where made.up.variable='X'", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where request.permission='INSTANCE_CREATE", "expect": "manual-review"},
+    {"statement": "Allow group g to use instances in tenancy where request.permission='X' extra", "expect": "manual-review"}
+  ]
+}
