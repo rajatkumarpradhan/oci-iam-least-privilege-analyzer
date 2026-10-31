@@ -1,0 +1,13 @@
+{
+  "workload": "app-tier compute lifecycle",
+  "requirements": [
+    {
+      "resource": "instances",
+      "operations": ["INSTANCE_READ", "INSTANCE_POWER_ACTIONS"]
+    },
+    {
+      "resource": "volume-attachments",
+      "operations": ["VOLUME_ATTACHMENT_READ"]
+    }
+  ]
+}
